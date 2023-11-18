@@ -11,9 +11,9 @@ export class Item {
 }
 
 export class GildedRose {
-  items: Array<Item>;
+  private items: Array<Item>;
 
-  constructor(items = [] as Array<Item>) {
+  constructor(items: Array<Item> = []) {
     this.items = items;
   }
 
@@ -54,7 +54,7 @@ export class GildedRose {
               }
             }
           } else {
-            this.items[i].quality = this.items[i].quality - this.items[i].quality
+            this.items[i].quality = 0
           }
         } else {
           if (this.items[i].quality < 50) {
