@@ -1,9 +1,47 @@
 import { Item, GildedRose } from '@/gilded-rose';
 
 describe('Gilded Rose', () => {
+  describe("Backstage Passes", () => {
+    it('cannot increate quality over 50', () => {
+      const gildedRose = new GildedRose([new Item('Backstage passes to a TAFKAL80ETC concert', 1, 50)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].quality).toBe(50);
+    });
+
+    describe('when sellIn is 10 days or less', () => {
+      it('increases quality by 2', () => {
+        const gildedRose = new GildedRose([new Item('Backstage passes to a TAFKAL80ETC concert', 10, 0)]);
+        const items = gildedRose.updateQuality();
+        expect(items[0].quality).toBe(2);
+      });
+    })
+
+    describe('when sellIn is 5 days or less', () => {
+      it('increases quality by 3', () => {
+        const gildedRose = new GildedRose([new Item('Backstage passes to a TAFKAL80ETC concert', 5, 0)]);
+        const items = gildedRose.updateQuality();
+        expect(items[0].quality).toBe(3);
+      });
+    })
+
+    describe('when concert has passed', () => {
+      it('quality drops to zero', () => {
+        const gildedRose = new GildedRose([new Item('Backstage passes to a TAFKAL80ETC concert', 0, 10)]);
+        const items = gildedRose.updateQuality();
+        expect(items[0].quality).toBe(0);
+      });
+    })
+  });
+
   describe("Aged Brie", () => {
+    it('cannot increate quality over 50', () => {
+      const gildedRose = new GildedRose([new Item('Aged Brie', 1, 50)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].quality).toBe(50);
+    });
+
     describe('when sellIn is greater than zero', () => {
-      it('increases quality with time', () => {
+      it('increases quality by 1', () => {
         const gildedRose = new GildedRose([new Item('Aged Brie', 1, 0)]);
         const items = gildedRose.updateQuality();
         expect(items[0].quality).toBe(1);
