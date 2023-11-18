@@ -2,16 +2,22 @@ import { Item, GildedRose } from '@/gilded-rose';
 
 describe('Gilded Rose', () => {
   describe('General Item', () => {
-    it('quality can never be negative', () => {
-      const gildedRose = new GildedRose([new Item('General Item', 2, 0)]);
-      const items = gildedRose.updateQuality();
-      expect(items[0].quality).toBe(0);
-    });
-
     it('sellIn decreases with time', () => {
       const gildedRose = new GildedRose([new Item('General Item', 2, 0)]);
       const items = gildedRose.updateQuality();
       expect(items[0].sellIn).toBe(1);
+    });
+
+    it('decreases with quality over time', () => {
+      const gildedRose = new GildedRose([new Item('General Item', 2, 1)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].quality).toBe(0);
+    });
+
+    it('quality can never be negative', () => {
+      const gildedRose = new GildedRose([new Item('General Item', 2, 0)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].quality).toBe(0);
     });
 
     describe('when sell date has passed', () => {
