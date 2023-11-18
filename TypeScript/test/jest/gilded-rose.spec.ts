@@ -27,8 +27,21 @@ describe('Gilded Rose', () => {
         expect(items[0].quality).toBe(0);
       });
     })
-
   })
+
+  describe('Sulfuras', () => {
+    it('never decreases in quality', () => {
+      const gildedRose = new GildedRose([new Item('Sulfuras, Hand of Ragnaros', 1, 10)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].quality).toBe(10);
+    });
+
+    it('does not have to be sold', () => {
+      const gildedRose = new GildedRose([new Item('Sulfuras, Hand of Ragnaros', 1, 10)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].sellIn).toBe(1);
+    });
+  });
 
   describe("Backstage Passes", () => {
     it('cannot increate quality over 50', () => {
