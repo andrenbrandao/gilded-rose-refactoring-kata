@@ -10,6 +10,62 @@ export class Item {
   }
 }
 
+class QualityOperator {
+  item: Item
+
+  constructor(item: Item) {
+    this.item = item
+  }
+
+  updateItemQuality() {
+    if (this.item.name == 'Sulfuras, Hand of Ragnaros') {
+      return
+    }
+
+    if (this.item.name == 'Backstage passes to a TAFKAL80ETC concert') {
+      this.increaseItemQuality()
+
+      if (this.item.sellIn < 11) {
+        this.increaseItemQuality()
+      }
+      if (this.item.sellIn < 6) {
+        this.increaseItemQuality()
+      }
+
+      this.item.sellIn = this.item.sellIn - 1;
+
+      if (this.item.sellIn < 0) {
+        this.item.quality = 0
+      }
+      return
+    }
+
+    if (this.item.name == 'Aged Brie') {
+      this.increaseItemQuality()
+
+      this.item.sellIn = this.item.sellIn - 1;
+
+      if (this.item.sellIn < 0) {
+        this.increaseItemQuality()
+      }
+      return
+    }
+
+    this.decreaseItemQuality()
+    this.item.sellIn = this.item.sellIn - 1;
+    if (this.item.sellIn < 0) {
+      this.decreaseItemQuality()
+    }
+  }
+
+  increaseItemQuality() {
+    this.item.quality = Math.min(50, this.item.quality + 1)
+  }
+
+  decreaseItemQuality() {
+    this.item.quality = Math.max(0, this.item.quality - 1)
+  }
+}
 export class GildedRose {
   private items: Array<Item>;
 
@@ -19,58 +75,10 @@ export class GildedRose {
 
   updateQuality() {
     for (let i = 0; i < this.items.length; i++) {
-      this.updateItemQuality(this.items[i])
+      const qualityOperator = new QualityOperator(this.items[i])
+      qualityOperator.updateItemQuality()
     }
 
     return this.items;
-  }
-
-  updateItemQuality(item: Item) {
-    if (item.name == 'Sulfuras, Hand of Ragnaros') {
-      return
-    }
-
-    if (item.name == 'Backstage passes to a TAFKAL80ETC concert') {
-      this.increaseItemQuality(item)
-
-      if (item.sellIn < 11) {
-        this.increaseItemQuality(item)
-      }
-      if (item.sellIn < 6) {
-        this.increaseItemQuality(item)
-      }
-
-      item.sellIn = item.sellIn - 1;
-
-      if (item.sellIn < 0) {
-        item.quality = 0
-      }
-      return
-    }
-
-    if (item.name == 'Aged Brie') {
-      this.increaseItemQuality(item)
-
-      item.sellIn = item.sellIn - 1;
-
-      if (item.sellIn < 0) {
-        this.increaseItemQuality(item)
-      }
-      return
-    }
-
-    this.decreaseItemQuality(item)
-    item.sellIn = item.sellIn - 1;
-    if (item.sellIn < 0) {
-      this.decreaseItemQuality(item)
-    }
-  }
-
-  increaseItemQuality(item: Item) {
-    item.quality = Math.min(50, item.quality + 1)
-  }
-
-  decreaseItemQuality(item: Item) {
-    item.quality = Math.max(0, item.quality - 1)
   }
 }
