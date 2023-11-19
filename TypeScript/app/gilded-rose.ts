@@ -24,23 +24,18 @@ export class GildedRose {
       }
 
       if (this.items[i].name == 'Backstage passes to a TAFKAL80ETC concert') {
-        if (this.items[i].quality < 50) {
-          this.items[i].quality = this.items[i].quality + 1
-          if (this.items[i].sellIn < 11) {
-            if (this.items[i].quality < 50) {
-              this.items[i].quality = this.items[i].quality + 1
-            }
-          }
-          if (this.items[i].sellIn < 6) {
-            if (this.items[i].quality < 50) {
-              this.items[i].quality = this.items[i].quality + 1
-            }
-          }
+        this.increaseItemQuality(i)
+
+        if (this.items[i].sellIn < 11) {
+          this.increaseItemQuality(i)
+        }
+        if (this.items[i].sellIn < 6) {
+          this.increaseItemQuality(i)
         }
       }
 
-      if (this.items[i].name == 'Aged Brie' && this.items[i].quality < 50) {
-        this.items[i].quality = this.items[i].quality + 1
+      if (this.items[i].name == 'Aged Brie') {
+        this.increaseItemQuality(i)
       }
 
       if (this.items[i].name != 'Aged Brie' && this.items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
@@ -53,9 +48,7 @@ export class GildedRose {
 
       if (this.items[i].sellIn < 0) {
         if (this.items[i].name == 'Aged Brie') {
-          if (this.items[i].quality < 50) {
-            this.items[i].quality = this.items[i].quality + 1
-          }
+          this.increaseItemQuality(i)
           continue
         }
 
@@ -71,5 +64,10 @@ export class GildedRose {
     }
 
     return this.items;
+  }
+
+  increaseItemQuality(pos: number) {
+    const quality = this.items[pos].quality
+    this.items[pos].quality = Math.min(50, quality + 1)
   }
 }
