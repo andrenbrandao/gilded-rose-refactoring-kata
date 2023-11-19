@@ -19,56 +19,58 @@ export class GildedRose {
 
   updateQuality() {
     for (let i = 0; i < this.items.length; i++) {
-      if (this.items[i].name == 'Sulfuras, Hand of Ragnaros') {
-        continue
-      }
-
-      if (this.items[i].name == 'Backstage passes to a TAFKAL80ETC concert') {
-        this.increaseItemQuality(i)
-
-        if (this.items[i].sellIn < 11) {
-          this.increaseItemQuality(i)
-        }
-        if (this.items[i].sellIn < 6) {
-          this.increaseItemQuality(i)
-        }
-
-        this.items[i].sellIn = this.items[i].sellIn - 1;
-
-        if (this.items[i].sellIn < 0) {
-          this.items[i].quality = 0
-        }
-        continue
-      }
-
-      if (this.items[i].name == 'Aged Brie') {
-        this.increaseItemQuality(i)
-
-        this.items[i].sellIn = this.items[i].sellIn - 1;
-
-        if (this.items[i].sellIn < 0) {
-          this.increaseItemQuality(i)
-        }
-        continue
-      }
-
-      this.decreaseItemQuality(i)
-      this.items[i].sellIn = this.items[i].sellIn - 1;
-      if (this.items[i].sellIn < 0) {
-        this.decreaseItemQuality(i)
-      }
+      this.updateItemQuality(this.items[i])
     }
 
     return this.items;
   }
 
-  increaseItemQuality(pos: number) {
-    const quality = this.items[pos].quality
-    this.items[pos].quality = Math.min(50, quality + 1)
+  updateItemQuality(item: Item) {
+    if (item.name == 'Sulfuras, Hand of Ragnaros') {
+      return
+    }
+
+    if (item.name == 'Backstage passes to a TAFKAL80ETC concert') {
+      this.increaseItemQuality(item)
+
+      if (item.sellIn < 11) {
+        this.increaseItemQuality(item)
+      }
+      if (item.sellIn < 6) {
+        this.increaseItemQuality(item)
+      }
+
+      item.sellIn = item.sellIn - 1;
+
+      if (item.sellIn < 0) {
+        item.quality = 0
+      }
+      return
+    }
+
+    if (item.name == 'Aged Brie') {
+      this.increaseItemQuality(item)
+
+      item.sellIn = item.sellIn - 1;
+
+      if (item.sellIn < 0) {
+        this.increaseItemQuality(item)
+      }
+      return
+    }
+
+    this.decreaseItemQuality(item)
+    item.sellIn = item.sellIn - 1;
+    if (item.sellIn < 0) {
+      this.decreaseItemQuality(item)
+    }
   }
 
-  decreaseItemQuality(pos: number) {
-    const quality = this.items[pos].quality
-    this.items[pos].quality = Math.max(0, quality - 1)
+  increaseItemQuality(item: Item) {
+    item.quality = Math.min(50, item.quality + 1)
+  }
+
+  decreaseItemQuality(item: Item) {
+    item.quality = Math.max(0, item.quality - 1)
   }
 }
