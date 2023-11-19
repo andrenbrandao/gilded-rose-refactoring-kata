@@ -34,6 +34,8 @@ export class GildedRose {
         return new BackstageQualityOperator(item);
       case 'Aged Brie':
         return new AgedBrieQualityOperator(item);
+      case 'Conjured Mana Cake':
+        return new ConjuredQualityOperator(item);
       default:
         return new GeneralItemQualityOperator(item)
     }
@@ -96,6 +98,19 @@ class BackstageQualityOperator extends QualityOperator {
 
     if (this.item.sellIn < 0) {
       this.item.quality = 0
+    }
+  }
+}
+
+
+class ConjuredQualityOperator extends QualityOperator {
+  updateQuality(): void {
+    this.decreaseQuality()
+    this.decreaseQuality()
+    this.item.sellIn = this.item.sellIn - 1;
+    if (this.item.sellIn < 0) {
+      this.decreaseQuality()
+      this.decreaseQuality()
     }
   }
 }

@@ -100,4 +100,26 @@ describe('Gilded Rose', () => {
       });
     })
   })
+
+  describe('Conjured', () => {
+    it('sellIn decreases with time', () => {
+      const gildedRose = new GildedRose([new Item('Conjured Mana Cake', 2, 0)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].sellIn).toBe(1);
+    });
+
+    it('quality degrades twice as fast', () => {
+      const gildedRose = new GildedRose([new Item('Conjured Mana Cake', 1, 2)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].quality).toBe(0);
+    });
+
+    describe('when sell date has passed', () => {
+      it('quality degrades twice as fast as normal items (by 4)', () => {
+        const gildedRose = new GildedRose([new Item('Conjured Mana Cake', 0, 4)]);
+        const items = gildedRose.updateQuality();
+        expect(items[0].quality).toBe(0);
+      });
+    })
+  })
 });
