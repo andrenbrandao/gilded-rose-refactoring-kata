@@ -17,19 +17,19 @@ class QualityOperator {
     this.item = item
   }
 
-  updateItemQuality() {
+  updateQuality() {
     if (this.item.name == 'Sulfuras, Hand of Ragnaros') {
       return
     }
 
     if (this.item.name == 'Backstage passes to a TAFKAL80ETC concert') {
-      this.increaseItemQuality()
+      this.increaseQuality()
 
       if (this.item.sellIn < 11) {
-        this.increaseItemQuality()
+        this.increaseQuality()
       }
       if (this.item.sellIn < 6) {
-        this.increaseItemQuality()
+        this.increaseQuality()
       }
 
       this.item.sellIn = this.item.sellIn - 1;
@@ -41,28 +41,28 @@ class QualityOperator {
     }
 
     if (this.item.name == 'Aged Brie') {
-      this.increaseItemQuality()
+      this.increaseQuality()
 
       this.item.sellIn = this.item.sellIn - 1;
 
       if (this.item.sellIn < 0) {
-        this.increaseItemQuality()
+        this.increaseQuality()
       }
       return
     }
 
-    this.decreaseItemQuality()
+    this.decreaseQuality()
     this.item.sellIn = this.item.sellIn - 1;
     if (this.item.sellIn < 0) {
-      this.decreaseItemQuality()
+      this.decreaseQuality()
     }
   }
 
-  increaseItemQuality() {
+  increaseQuality() {
     this.item.quality = Math.min(50, this.item.quality + 1)
   }
 
-  decreaseItemQuality() {
+  decreaseQuality() {
     this.item.quality = Math.max(0, this.item.quality - 1)
   }
 }
@@ -76,7 +76,7 @@ export class GildedRose {
   updateQuality() {
     for (let i = 0; i < this.items.length; i++) {
       const qualityOperator = new QualityOperator(this.items[i])
-      qualityOperator.updateItemQuality()
+      qualityOperator.updateQuality()
     }
 
     return this.items;
