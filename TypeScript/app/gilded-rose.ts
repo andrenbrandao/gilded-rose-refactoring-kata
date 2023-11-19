@@ -10,6 +10,36 @@ export class Item {
   }
 }
 
+export class GildedRose {
+  private items: Array<Item>;
+
+  constructor(items: Array<Item> = []) {
+    this.items = items;
+  }
+
+  updateQuality() {
+    for (let i = 0; i < this.items.length; i++) {
+      const qualityOperator = this.createQualityOperator(this.items[i])
+      qualityOperator.updateQuality()
+    }
+
+    return this.items;
+  }
+
+  createQualityOperator(item: Item) {
+    switch (item.name) {
+      case 'Sulfuras, Hand of Ragnaros':
+        return new SulfurasQualityOperator(item);
+      case 'Backstage passes to a TAFKAL80ETC concert':
+        return new BackstageQualityOperator(item);
+      case 'Aged Brie':
+        return new AgedBrieQualityOperator(item);
+      default:
+        return new GeneralItemQualityOperator(item)
+    }
+  }
+}
+
 class QualityOperator {
   item: Item
 
@@ -66,23 +96,8 @@ class QualityOperator {
     this.item.quality = Math.max(0, this.item.quality - 1)
   }
 }
-export class GildedRose {
-  private items: Array<Item>;
 
-  constructor(items: Array<Item> = []) {
-    this.items = items;
-  }
-
-  updateQuality() {
-    for (let i = 0; i < this.items.length; i++) {
-      const qualityOperator = this.createQualityOperator(this.items[i])
-      qualityOperator.updateQuality()
-    }
-
-    return this.items;
-  }
-
-  createQualityOperator(item: Item) {
-    return new QualityOperator(item)
-  }
-}
+class GeneralItemQualityOperator extends QualityOperator { }
+class SulfurasQualityOperator extends QualityOperator { }
+class AgedBrieQualityOperator extends QualityOperator { }
+class BackstageQualityOperator extends QualityOperator { }
