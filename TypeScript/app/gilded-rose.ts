@@ -39,9 +39,7 @@ export class GildedRose {
       }
 
       if (this.items[i].name != 'Aged Brie' && this.items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
-        if (this.items[i].quality > 0) {
-          this.items[i].quality = this.items[i].quality - 1
-        }
+        this.decreaseItemQuality(i)
       }
 
       this.items[i].sellIn = this.items[i].sellIn - 1;
@@ -57,9 +55,7 @@ export class GildedRose {
           continue
         }
 
-        if (this.items[i].quality > 0) {
-          this.items[i].quality = this.items[i].quality - 1
-        }
+        this.decreaseItemQuality(i)
       }
     }
 
@@ -69,5 +65,10 @@ export class GildedRose {
   increaseItemQuality(pos: number) {
     const quality = this.items[pos].quality
     this.items[pos].quality = Math.min(50, quality + 1)
+  }
+
+  decreaseItemQuality(pos: number) {
+    const quality = this.items[pos].quality
+    this.items[pos].quality = Math.max(0, quality - 1)
   }
 }
