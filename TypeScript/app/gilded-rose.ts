@@ -75,10 +75,14 @@ export class GildedRose {
 
   updateQuality() {
     for (let i = 0; i < this.items.length; i++) {
-      const qualityOperator = new QualityOperator(this.items[i])
+      const qualityOperator = this.createQualityOperator(this.items[i])
       qualityOperator.updateQuality()
     }
 
     return this.items;
+  }
+
+  createQualityOperator(item: Item) {
+    return new QualityOperator(item)
   }
 }
