@@ -48,44 +48,7 @@ class QualityOperator {
   }
 
   updateQuality() {
-    if (this.item.name == 'Sulfuras, Hand of Ragnaros') {
-      return
-    }
-
-    if (this.item.name == 'Backstage passes to a TAFKAL80ETC concert') {
-      this.increaseQuality()
-
-      if (this.item.sellIn < 11) {
-        this.increaseQuality()
-      }
-      if (this.item.sellIn < 6) {
-        this.increaseQuality()
-      }
-
-      this.item.sellIn = this.item.sellIn - 1;
-
-      if (this.item.sellIn < 0) {
-        this.item.quality = 0
-      }
-      return
-    }
-
-    if (this.item.name == 'Aged Brie') {
-      this.increaseQuality()
-
-      this.item.sellIn = this.item.sellIn - 1;
-
-      if (this.item.sellIn < 0) {
-        this.increaseQuality()
-      }
-      return
-    }
-
-    this.decreaseQuality()
-    this.item.sellIn = this.item.sellIn - 1;
-    if (this.item.sellIn < 0) {
-      this.decreaseQuality()
-    }
+    throw new Error("Subclass must implement updateQuality")
   }
 
   increaseQuality() {
@@ -97,7 +60,42 @@ class QualityOperator {
   }
 }
 
-class GeneralItemQualityOperator extends QualityOperator { }
-class SulfurasQualityOperator extends QualityOperator { }
-class AgedBrieQualityOperator extends QualityOperator { }
-class BackstageQualityOperator extends QualityOperator { }
+class GeneralItemQualityOperator extends QualityOperator {
+  updateQuality(): void {
+    this.decreaseQuality()
+    this.item.sellIn = this.item.sellIn - 1;
+    if (this.item.sellIn < 0) {
+      this.decreaseQuality()
+    }
+  }
+}
+class SulfurasQualityOperator extends QualityOperator {
+  updateQuality(): void { }
+}
+class AgedBrieQualityOperator extends QualityOperator {
+  updateQuality(): void {
+    this.increaseQuality()
+    this.item.sellIn = this.item.sellIn - 1;
+    if (this.item.sellIn < 0) {
+      this.increaseQuality()
+    }
+  }
+}
+class BackstageQualityOperator extends QualityOperator {
+  updateQuality(): void {
+    this.increaseQuality()
+
+    if (this.item.sellIn < 11) {
+      this.increaseQuality()
+    }
+    if (this.item.sellIn < 6) {
+      this.increaseQuality()
+    }
+
+    this.item.sellIn = this.item.sellIn - 1;
+
+    if (this.item.sellIn < 0) {
+      this.item.quality = 0
+    }
+  }
+}
